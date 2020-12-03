@@ -11,7 +11,7 @@ function Article(id::AbstractString, title, content)
     Article(parse(Int, id), title, content)
 end
 
-function articles_from_file(file_path)
+function articles_from_xml(file_path)
     xroot = root(parse_file(file_path))
     [
         Article(attribute(c, "id"), attribute(c, "title"), content(c))
