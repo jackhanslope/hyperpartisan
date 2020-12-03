@@ -1,5 +1,6 @@
 module clean
 using LightXML
+using JSON
 
 struct Article
     id::Integer
@@ -17,6 +18,12 @@ function articles_from_xml(file_path)
         Article(attribute(c, "id"), attribute(c, "title"), content(c))
         for c in child_elements(xroot)
     ]
+end
+
+function articles_to_json(articles, file_path)
+    open(file_path, "w") do io
+        write(io, JSON.json(articles))
+    end
 end
 
 end # module

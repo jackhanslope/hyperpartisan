@@ -10,5 +10,8 @@ using Test
     @test articles[2].title ==
           "Hollywood Actors Who Condemn Trump but Were Silent on Weinstein"
 
-    
+    clean.articles_to_json(articles, "data/tmp.json")
+    tmp, cln = open("data/tmp.json", "r"), open("data/clean.json", "r")
+    @test readlines(cln) == readlines(tmp)
+    close(tmp), close(cln)
 end
