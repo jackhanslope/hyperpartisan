@@ -17,4 +17,10 @@ using Test
     rm("data/tmp.json", force=true)
     close(tmp), close(cln)
 
+    rm("data/tmp.json", force=true)
+    clean.run("data/articles.xml", "data/tmp.json")
+    tmp, cln = open("data/tmp.json", "r"), open("data/clean.json", "r")
+    @test readlines(cln) == readlines(tmp)
+    rm("data/tmp.json", force=true)
+    close(tmp), close(cln)
 end

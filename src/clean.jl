@@ -26,4 +26,9 @@ function articles_to_json(articles, file_path)
     end
 end
 
+function run(inp_file, out_file)
+    articles = articles_from_xml(inp_file)
+    articles_to_json(articles, out_file)
+end
+
 end # module
