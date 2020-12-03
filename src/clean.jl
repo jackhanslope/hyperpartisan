@@ -31,4 +31,17 @@ function run(inp_file, out_file)
     articles_to_json(articles, out_file)
 end
 
+function main()
+    if length(ARGS) != 2
+        println(stderr, "Incorrect number of arguments given.")
+        exit(1)
+    end
+    run(ARGS[1], ARGS[2])
+    println("Clean data written to $(ARGS[2])")
+end
+
+if abspath(PROGRAM_FILE) == @__FILE__
+    main()
+end
+
 end # module
