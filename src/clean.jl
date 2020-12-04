@@ -29,10 +29,8 @@ end
 
 articles_to_json(articles) = JSON.json(articles)
 
-function run(article_file, truth_file)
-    articles = articles_from_xml(article_file, truth_file)
-    articles_to_json(articles)
-end
+run(article_file, truth_file) =
+    articles_to_json(articles_from_xml(article_file, truth_file))
 
 function main()
     if length(ARGS) != 2
