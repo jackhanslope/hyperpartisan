@@ -14,7 +14,7 @@ function articles_from_xml(article_file, truth_file)
         parse(Int, attribute(c, "id")) => parse(Bool, attribute(c, "hyperpartisan"))
         for c in child_elements(root(parse_file(truth_file)))
     )
-    articles = [
+    [
         Article(
             parse(Int, attribute(c, "id")),
             attribute(c, "title"),
@@ -22,7 +22,6 @@ function articles_from_xml(article_file, truth_file)
             labels[parse(Int, attribute(c, "id"))],
         ) for c in child_elements(root(parse_file(article_file)))
     ]
-    articles
 end
 
 function articles_to_json(articles, file_path)
