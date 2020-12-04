@@ -9,17 +9,20 @@ struct Article
     label::Bool
 end
 
+Article(id::AbstractString, title, content, label::AbstractString) =
+    Article(parse(Int, id), title, content, parse(Bool, label))
+
 function articles_from_xml(article_file, truth_file)
     labels = Dict(
-        parse(Int, attribute(c, "id")) => parse(Bool, attribute(c, "hyperpartisan"))
+        attribute(c, "id") => attribute(c, "hyperpartisan")
         for c in child_elements(root(parse_file(truth_file)))
     )
     [
         Article(
-            parse(Int, attribute(c, "id")),
+            attribute(c, "id"),
             attribute(c, "title"),
             content(c),
-            labels[parse(Int, attribute(c, "id"))],
+            labels[attribute(c, "id")],
         ) for c in child_elements(root(parse_file(article_file)))
     ]
 end
