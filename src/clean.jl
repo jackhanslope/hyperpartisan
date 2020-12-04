@@ -37,7 +37,7 @@ function main()
         println(stderr, "Incorrect number of arguments given.")
         exit(1)
     end
-    run(ARGS[1], ARGS[2])
+    println(run(ARGS[1], ARGS[2]))
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
