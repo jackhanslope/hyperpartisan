@@ -9,17 +9,12 @@ using Test
     @test articles[2].title ==
           "Hollywood Actors Who Condemn Trump but Were Silent on Weinstein"
 
-    rm("data/tmp.json", force = true)
-    clean.articles_to_json(articles, "data/tmp.json")
-    tmp, cln = open("data/tmp.json", "r"), open("data/clean.json", "r")
-    @test readlines(cln) == readlines(tmp)
-    rm("data/tmp.json", force = true)
-    close(tmp), close(cln)
+    open("data/clean.json", "r") do io
+        @test readlines(io)[1] == clean.articles_to_json(articles)
+    end
 
-    rm("data/tmp.json", force = true)
-    clean.run("data/articles.xml", "data/truth.xml", "data/tmp.json")
-    tmp, cln = open("data/tmp.json", "r"), open("data/clean.json", "r")
-    @test readlines(cln) == readlines(tmp)
-    rm("data/tmp.json", force = true)
-    close(tmp), close(cln)
-end
+    open("data/clean.json", "r") do io
+        @test readlines(io)[1] == clean.run("data/articles.xml", "data/truth.xml")
+    end
+
+end # testcase
