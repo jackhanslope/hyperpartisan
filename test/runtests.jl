@@ -1,4 +1,4 @@
-using clean
+using cleaner
 using Test
 
 @testset "clean.jl" begin

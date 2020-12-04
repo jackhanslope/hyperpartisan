@@ -1,4 +1,4 @@
-name = "clean"
+name = "cleaner"
 uuid = "33a1c499-97fe-4b8f-87d8-dde9826c6ee2"
 authors = ["Jack Hanslope <code@jackhanslope.com> and contributors"]
 version = "0.1.0"
