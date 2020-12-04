@@ -4,20 +4,31 @@ using JSON
 
 struct Article
     id::Integer
-    title::Any
-    content::Any
+    title::AbstractString
+    content::AbstractString
+    label::Union{Nothing,Bool}
 end
 
 function Article(id::AbstractString, title, content)
     Article(parse(Int, id), title, content)
 end
 
-function articles_from_xml(file_path)
-    xroot = root(parse_file(file_path))
-    [
-        Article(attribute(c, "id"), attribute(c, "title"), content(c))
-        for c in child_elements(xroot)
+Article(id::Integer, title, content) = Article(id, title, content, nothing)
+
+function articles_from_xml(article_file, truth_file)
+    labels = Dict(
+        parse(Int, attribute(c, "id")) => parse(Bool, attribute(c, "hyperpartisan"))
+        for c in child_elements(root(parse_file(truth_file)))
+    )
+    articles = [
+        Article(
+            parse(Int, attribute(c, "id")),
+            attribute(c, "title"),
+            content(c),
+            labels[parse(Int, attribute(c, "id"))],
+        ) for c in child_elements(root(parse_file(article_file)))
     ]
+    articles
 end
 
 function articles_to_json(articles, file_path)
@@ -26,8 +37,8 @@ function articles_to_json(articles, file_path)
     end
 end
 
-function run(inp_file, out_file)
-    articles = articles_from_xml(inp_file)
+function run(inp_file, truth_file, out_file)
+    articles = articles_from_xml(inp_file, truth_file)
     articles_to_json(articles, out_file)
 end
 
