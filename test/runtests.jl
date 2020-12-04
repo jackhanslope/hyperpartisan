@@ -2,8 +2,6 @@ using clean
 using Test
 
 @testset "clean.jl" begin
-    @test clean.Article(123, "hello", "world") == clean.Article("000123", "hello", "world")
-
     articles = clean.articles_from_xml("data/articles.xml", "data/truth.xml")
     @test articles[3] == clean.Article(678787, "Jack is good", "As the title says.", true)
     @test articles[1].id == 643

@@ -6,14 +6,8 @@ struct Article
     id::Integer
     title::AbstractString
     content::AbstractString
-    label::Union{Nothing,Bool}
+    label::Bool
 end
-
-function Article(id::AbstractString, title, content)
-    Article(parse(Int, id), title, content)
-end
-
-Article(id::Integer, title, content) = Article(id, title, content, nothing)
 
 function articles_from_xml(article_file, truth_file)
     labels = Dict(
