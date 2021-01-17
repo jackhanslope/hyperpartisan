@@ -1,4 +1,7 @@
 from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import CountVectorizer
+
+import pickle
 
 
 class NLPModel:
