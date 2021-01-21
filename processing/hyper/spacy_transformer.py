@@ -1,8 +1,9 @@
+from typing import Iterable
+
 import numpy as np
 import spacy
-from sklearn.base import BaseEstimator, TransformerMixin
-from typing import Iterable
 import thinc
+from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class SpacyTransformer(BaseEstimator, TransformerMixin):
