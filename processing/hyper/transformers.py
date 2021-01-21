@@ -36,5 +36,5 @@ class SpacyTransformer(BaseEstimator, TransformerMixin):
         Return the documents into a numpy array of vectors
         """
         if not thinc.extra.load_nlp.VECTORS:
-            self.spacy_model = spacy.load(self.model_name)
+            spacy.load(self.model_name)
         return np.array([self.transform_sentence(t) for t in texts])
