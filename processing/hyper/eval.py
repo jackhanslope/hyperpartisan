@@ -14,6 +14,7 @@ def evaluate_algorithm(
     algorithm,
     n_jobs=-1,
     verbosity=3,
+    error_score="raise",
 ):
     """
     Return the cross val score for the given algorithm with 5 fold stratified
@@ -27,6 +28,7 @@ def evaluate_algorithm(
         scoring=["accuracy", "precision", "recall", "f1"],
         n_jobs=n_jobs,
         verbose=verbosity,
+        error_score=error_score,
     )
 
 
