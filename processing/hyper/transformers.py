@@ -41,7 +41,10 @@ class FlairTransformer(BaseEstimator, TransformerMixin):
         """ Return the vector representation of `text` """
         sentence = Sentence(text)
         self.document_embeddings.embed(sentence)
-        return sentence.embedding.numpy()
+        if sentence.embedding.requires_grad:
+            return sentence.embedding.detach().numpy()
+        else:
+            return sentence.embedding.numpy()
 
     def fit(self, features, target=None):
         """ Required function """
