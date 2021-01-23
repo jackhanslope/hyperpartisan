@@ -5,3 +5,8 @@ pandas~=1.1
 sklearn~=0.0
 spacy==2.3.5
 thinc==7.4.5
+nltk==3.5
+torch==1.7.1+cpu  # cpu version of torch to supress warnings
+torchaudio==0.7.2  # cpu version of torch to supress warnings
+torchvision==0.8.2+cpu  # cpu version of torch to supress warnings
+multipledispatch==0.6.0
