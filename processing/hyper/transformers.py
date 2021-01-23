@@ -26,7 +26,7 @@ class SpacyTransformer(BaseEstimator, TransformerMixin):
 
     def transform(self, texts: Iterable[str]):
         """ Return the documents into a numpy array of vectors """
-        if not thinc.extra.load_nlp.VECTORS:
+        if not thinc.extra.load_nlp.VECTORS:  # type: ignore
             spacy.load(self.model_name)
         return np.array([self.transform_sentence(t) for t in texts])
 
