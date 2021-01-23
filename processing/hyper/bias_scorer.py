@@ -1,7 +1,9 @@
 """ Holds the bias scorer class """
 import functools
+from collections import Iterable
 
 import nltk
+from multipledispatch import dispatch
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 
 
@@ -25,7 +27,7 @@ class BiasScorer:
 
     def score(self, sentence):
         """ Return the lemma and stem scores for the given sentence """
-        tokens = nltk.word_tokenize(sentence)
+        tokens = self.tokenize(sentence)
 
         lemma_fd = nltk.FreqDist(self.lemmatize(tokens))
         stem_fd = nltk.FreqDist(self.stem(tokens))
@@ -38,3 +40,13 @@ class BiasScorer:
         )
 
         return (lemma_score, stem_score)
+
+    @dispatch(Iterable)
+    def tokenize(self, word_list):
+        """ If we're passed a list, assume it's already tokenized """
+        return word_list
+
+    @dispatch(str)
+    def tokenize(self, sentence):
+        """ If we're passed a string, tokenize it """
+        return nltk.word_tokenize(sentence)
