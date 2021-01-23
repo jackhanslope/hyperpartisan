@@ -54,3 +54,18 @@ class FlairTransformer(BaseEstimator, TransformerMixin):
     def transform(self, texts: Iterable[str]):
         """ Return the documents into a numpy array of vectors """
         return np.array([self.transform_sentence(t) for t in texts])
+
+
+class StaticTransformer(BaseEstimator, TransformerMixin):
+    """ A transformer to hold pre transformed data """
+
+    def __init__(self, static_data):
+        self.static_data = static_data
+
+    def fit(self, X, y=None):
+        """ Return self. Required by sklearn. """
+        return self
+
+    def transform(self, X, y=None):
+        """ Return portion of static_data corresponding to the index """
+        return self.static_data[X.index]
