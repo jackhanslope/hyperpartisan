@@ -31,6 +31,7 @@ class BiasScorer:
 
         lemma_fd = nltk.FreqDist(self.lemmatize(tokens))
         stem_fd = nltk.FreqDist(self.stem(tokens))
+        pure_fd = nltk.FreqDist(tokens)
 
         lemma_score = functools.reduce(
             lambda x, y: x + y, [lemma_fd.freq(lemma) for lemma in self.bias_lemmas]
@@ -38,8 +39,11 @@ class BiasScorer:
         stem_score = functools.reduce(
             lambda x, y: x + y, [stem_fd.freq(stem) for stem in self.bias_stems]
         )
+        pure_score = functools.reduce(
+            lambda x, y: x + y, [pure_fd.freq(word) for word in self.word_list]
+        )
 
-        return (lemma_score, stem_score)
+        return (lemma_score, stem_score, pure_score)
 
     @dispatch(Iterable)
     def tokenize(self, word_list):
