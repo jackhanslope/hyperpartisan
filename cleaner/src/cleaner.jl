@@ -17,7 +17,7 @@ struct Article
     id::Integer
     title::AbstractString
     content::AbstractString
-    label::Bool
+    label::Union{Bool, Nothing}
 end
 
 """
@@ -33,6 +33,19 @@ cleaner.Article(123, "Title", "Some content.", true)
 """
 Article(id::AbstractString, title, content, label::AbstractString) =
     Article(parse(Int, id), title, content, parse(Bool, label))
+
+
+"""
+    Article(id::AbstractString, title, content)
+
+Return an `Article` without a knwon `label`.
+
+# Examples
+```julia-repl
+julia> a = clean.Article("123", "Title", "Some content.")
+cleaner.Article(123, "Title", "Some content.", nothing)
+"""
+Article(id::AbstractString, title, content)  = Article(parse(Int, id), title, content, nothing)
 
 """
     articles_from_xml(article_file, truth_file)
@@ -57,6 +70,22 @@ function articles_from_xml(article_file, truth_file)
         ) for c in child_elements(root(parse_file(article_file)))
     ]
 end
+
+"""
+    articles_from_xml(article_file)
+
+Return an array of `Article`s corresponding to the articles in the input file.
+"""
+function articles_from_xml(article_file)
+    [
+        Article(
+            attribute(c, "id"),
+            attribute(c, "title"),
+            content(c),
+        ) for c in child_elements(root(parse_file(article_file)))
+    ]
+end
+
 
 """
     articles_to_json(articles)
