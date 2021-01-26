@@ -17,7 +17,7 @@ struct Article
     id::Integer
     title::AbstractString
     content::AbstractString
-    label::Bool
+    label::Union{Bool, Nothing}
 end
 
 """
@@ -33,6 +33,19 @@ cleaner.Article(123, "Title", "Some content.", true)
 """
 Article(id::AbstractString, title, content, label::AbstractString) =
     Article(parse(Int, id), title, content, parse(Bool, label))
+
+
+"""
+    Article(id::AbstractString, title, content)
+
+Return an `Article` without a knwon `label`.
+
+# Examples
+```julia-repl
+julia> a = clean.Article("123", "Title", "Some content.")
+cleaner.Article(123, "Title", "Some content.", nothing)
+"""
+Article(id::AbstractString, title, content)  = Article(parse(Int, id), title, content, nothing)
 
 """
     articles_from_xml(article_file, truth_file)
@@ -59,6 +72,22 @@ function articles_from_xml(article_file, truth_file)
 end
 
 """
+    articles_from_xml(article_file)
+
+Return an array of `Article`s corresponding to the articles in the input file.
+"""
+function articles_from_xml(article_file)
+    [
+        Article(
+            attribute(c, "id"),
+            attribute(c, "title"),
+            content(c),
+        ) for c in child_elements(root(parse_file(article_file)))
+    ]
+end
+
+
+"""
     articles_to_json(articles)
 
 Return a JSON serialized object of the array of `Article`s.
@@ -77,16 +106,26 @@ run(article_file, truth_file) =
     articles_to_json(articles_from_xml(article_file, truth_file))
 
 """
+    run(article_file)
+
+Return a JSON object of the articles from the `article_file`. 
+"""
+run(article_file) = articles_to_json(articles_from_xml(article_file))
+
+"""
     main()
 
 Execute the `run` funciton with the specified command line arguments.
 """
 function main()
-    if length(ARGS) != 2
+    if length(ARGS) == 1
+        println(run(ARGS[1]))
+    elseif length(ARGS) == 2
+        println(run(ARGS[1], ARGS[2]))
+    else
         println(stderr, "Incorrect number of arguments given.")
         exit(1)
     end
-    println(run(ARGS[1], ARGS[2]))
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
