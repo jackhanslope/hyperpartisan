@@ -12,6 +12,7 @@ from hyper import nlp_transformers, pipeline  # type: ignore
 
 
 def process_json(data: pd.DataFrame):
+    data.index = data["id"]  # type: ignore
     data["content"] = data["title"] + data["content"]
     data["content"] = data["content"].apply(lambda x: x.replace("\n", " ")).str.lower()
     return data[["label", "content"]]
