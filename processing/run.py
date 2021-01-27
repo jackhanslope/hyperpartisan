@@ -26,7 +26,7 @@ def init_pipe():
                     (
                         "spacy_transformer",
                         nlp_transformers.SpacyTransformer(
-                            spacy.load("en_core_web_md"), "en_core_web_md"
+                            spacy.load("en_core_web_lg"), "en_core_web_lg"
                         ),
                     ),
                     (
