@@ -57,5 +57,16 @@ if __name__ == "__main__":
             pipe.fit(X, y)
             pipe.save(file_path)
     elif sys.argv[1] == "predict":
-        # TODO: implement this
-        print("not yet implemented")
+        if not len(sys.argv) == 4:
+            print("Wrong number of arguments supplied")
+            exit(1)
+        else:
+            data = process_json(pd.read_json(sys.argv[2]))  # type: ignore
+            X = data["content"]
+            y = data["label"]
+            file_path = sys.argv[3]
+            pipe = pipeline.NlpPipeline.from_pickle(file_path)
+            y_pred = pipe.predict(X)
+            results = pd.Series(y_pred, index=X.index)
+            for (i, val) in results.iteritems():
+                print(i, val)
