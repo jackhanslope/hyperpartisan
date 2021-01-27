@@ -52,9 +52,8 @@ if __name__ == "__main__":
             data = process_json(pd.read_json(sys.argv[2]))  # type: ignore
             file_path = sys.argv[3]
             pipe = init_pipe()
-            # Change these below
-            X = data["content"][1:10]
-            y = data["label"][1:10]
+            X = data["content"]
+            y = data["label"]
             pipe.fit(X, y)
             pipe.save(file_path)
     elif sys.argv[1] == "predict":
